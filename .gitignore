@@ -9,8 +9,5 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
-<<<<<<< HEAD
 /.docker
-=======
 .idea
->>>>>>> 89fe9883a35772f6ea8f37961cebc81ef360ba83
