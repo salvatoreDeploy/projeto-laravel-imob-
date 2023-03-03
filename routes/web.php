@@ -24,6 +24,12 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
 
 });
 
+
+Route::group(['prefix' => 'component', 'namespace' => 'Web', 'as' => 'component.'], function (){
+    Route::post('main-filter/search', 'FilterController@search')->name('main-filter.search');
+});
+
+
 Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], function (){
 
     /* Formulario de login */

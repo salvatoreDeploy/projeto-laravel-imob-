@@ -4,7 +4,11 @@
     <section class="dash_content_app">
 
         <header class="dash_content_app_header">
+<<<<<<< HEAD
             <h2 class="icon-search">Cadastrar Novo Imóvel</h2>
+=======
+            <h2 class="icon-search">Editar Imóvel</h2>
+>>>>>>> 526c367fedb2e5e02d8772b7855b67e05b85f516
 
             <div class="dash_content_app_header_actions">
                 <nav class="dash_content_app_breadcrumb">
@@ -71,6 +75,7 @@
                                 <label class="label">
                                     <span class="legend">Categoria:</span>
                                     <select name="category" class="select2">
+<<<<<<< HEAD
                                         <option
                                             value="Imóvel Residencial" {{ (old('category') == 'Imóvel Residencial' ? 'selected' : ($property->residential_property == 'Imóvel Residencial' ? 'selected' : '')) }}>
                                             Imóvel Residencial
@@ -81,6 +86,15 @@
                                         </option>
                                         <option
                                             value="Terreno" {{ (old('category') == 'Terreno' ? 'selected' : ($property->commercial_industrial == 'Terreno' ? 'selected' : '')) }}>
+=======
+                                        <option value="Imóvel Residencial" {{ (old('category') == 'Imóvel Residencial' ? 'selected' : ($property->category == 'Imóvel Residencial' ? 'selected' : '')) }}>
+                                            Imóvel Residencial
+                                        </option>
+                                        <option value="Comercial/Industrial" {{ (old('category') == 'Comercial/Industrial' ? 'selected' : ($property->category == 'Comercial/Industrial' ? 'selected' : '')) }}>
+                                            Comercial/Industrial
+                                        </option>
+                                        <option value="Terreno" {{ (old('category') == 'Terreno' ? 'selected' : ($property->category == 'Terreno' ? 'selected' : '')) }}>
+>>>>>>> 526c367fedb2e5e02d8772b7855b67e05b85f516
                                             Terreno
                                         </option>
                                     </select>
