@@ -23,7 +23,7 @@
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <label for="search" class="mb-2"><b>Comprar ou Alugar?</b></label>
                         <select class="selectpicker" id="search" name="filter_search" title="Escolha..."
-                                data-action="{{ route("component.main-filter.search") }}">
+                                data-index="1" data-action="{{ route("component.main-filter.search") }}">
                             <option value="buy">Comprar</option>
                             <option value="rent">Alugar</option>
                         </select>
@@ -31,7 +31,7 @@
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <label for="category" class="mb-2"><b>O que você quer?</b></label>
                         <select class="selectpicker" id="category" name="filter_category" title="Escolha..."
-                                data-action="">
+                                data-index="2" data-action="">
                             <option disabled>Selecione o filtro anterior</option>
                         </select>
                     </div>

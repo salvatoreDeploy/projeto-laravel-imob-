@@ -27,7 +27,7 @@ class FilterController extends Controller
                 $category[] = $categoryProperty->category;
             }
            $collect = collect($category);
-           return response()->json($this->setResponse('succes',$collect->unique()->toArray()));
+           return response()->json($this->setResponse('success',$collect->unique()->toArray()));
 
         }
         return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
@@ -46,6 +46,7 @@ class FilterController extends Controller
     {
         $sale = session('sale');
         $rent = session('rent');
+        $status = true;
 
         return DB::table('properties')
             ->when($sale, function ($query, $sale){
@@ -53,6 +54,9 @@ class FilterController extends Controller
             })
             ->when($rent, function ($query, $rent){
                 return $query->where('rent', $rent);
+            })
+            ->when($status, function ($query, $status){
+                return $query->where('status', $status);
             })
             ->get([$field]);
     }

@@ -27,9 +27,24 @@ $(function () {
     });
 
     $('body').on('change', 'select[name*="filter_"]', function () {
-        var search = $(this)
+        var search = $(this);
+        var nextIndex = $(this).data('index') + 1;
 
         $.post(search.data('action'), {search: search.val()}, function (response) {
+            if(response.status === 'success'){
+                $('select[data-index="' + nextIndex + '"]').empty();
+
+                $.each(response.data, function(key, value){
+                    $('select[data-index="' + nextIndex + '"]').append(
+                        $('<option>', {
+                            value: value,
+                            text: value
+                        })
+                    );
+                });
+
+                $('.selectpicker').selectpicker('refresh')
+            }
             console.log(response)
         }, 'json')
     });
