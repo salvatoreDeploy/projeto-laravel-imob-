@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                         <label for="search_locale" class="mb-2"><b>Onde você quer?</b></label>
-                        <select class="selectpicker" name="filter_neighborhood" id="neighborhood" title="Escolha..."
+                        <select class="selectpicker" name="filter_neighborhood" id="neighborhood" title="Escolha..." data-index="4"
                                 data-action="" multiple
                                 data-actions-box="true">
                             <option disabled>Selecione o filtro anterior</option>
@@ -60,7 +60,7 @@
                                 <label for="bedrooms" class="mb-2"><b>Quartos</b></label>
                                 <select class="selectpicker" name="filter_bedrooms"
                                         data-action="" id="bedrooms"
-                                        title="Escolha...">
+                                        title="Escolha..." data-index="5">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
                             </div>
@@ -75,7 +75,7 @@
 
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Banheiros</b></label>
-                                <select class="selectpicker" name="filter_bathrooms" id="bathrooms" title="Escolha..."
+                                <select class="selectpicker" name="filter_bathrooms" id="bathrooms" title="Escolha..." data-index="7"
                                         data-action="">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
@@ -83,7 +83,7 @@
 
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Garagem</b></label>
-                                <select class="selectpicker" name="filter_garage" id="garage" title="Escolha..."
+                                <select class="selectpicker" name="filter_garage" id="garage" title="Escolha..." data-index="8"
                                         data-action="">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
@@ -93,7 +93,7 @@
                         <div class="row mt-3">
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-6 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Preço Base</b></label>
-                                <select class="selectpicker" name="filter_base" id="base" title="Escolha..."
+                                <select class="selectpicker" name="filter_base" id="base" title="Escolha..." data-index="9"
                                         data-action="">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
@@ -101,8 +101,7 @@
 
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-6 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Preço Limite</b></label>
-                                <select class="selectpicker" name="filter_limit" id="limit" title="Escolha..."
-
+                                <select class="selectpicker" name="filter_limit" id="limit" title="Escolha..." data-index="10"
                                         data-action="">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
