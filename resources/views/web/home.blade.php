@@ -31,7 +31,7 @@
                     <div class="form-group col-12 col-sm-6 col-lg-3">
                         <label for="category" class="mb-2"><b>O que você quer?</b></label>
                         <select class="selectpicker" id="category" name="filter_category" title="Escolha..."
-                                data-index="2" data-action="">
+                                data-index="2" data-action="{{ route("component.main-filter.category") }}">
                             <option disabled>Selecione o filtro anterior</option>
                         </select>
                     </div>
@@ -40,7 +40,7 @@
                         <label for="type" class="mb-2 d-block"><b>Qual o tipo do imóvel?</b></label>
                         <select class="selectpicker input-large" id="type" name="filter_type" multiple
                                 data-actions-box="true" title="Escolha..." data-index="3"
-                                data-action="">
+                                data-action="{{ route("component.main-filter.type") }}">
                             <option disabled>Selecione o filtro anterior</option>
                         </select>
                     </div>

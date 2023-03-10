@@ -27,6 +27,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
 
 Route::group(['prefix' => 'component', 'namespace' => 'Web', 'as' => 'component.'], function (){
     Route::post('main-filter/search', 'FilterController@search')->name('main-filter.search');
+    Route::post('main-filter/category', 'FilterController@category')->name('main-filter.category');
+    Route::post('main-filter/type', 'FilterController@type')->name('main-filter.type');
 });
 
 
