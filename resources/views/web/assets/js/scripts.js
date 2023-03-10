@@ -65,6 +65,19 @@ $(function () {
                 )
                 $('.selectpicker').selectpicker('refresh')
             }
+
+            if(response.status === 'fail'){
+                if($(element).data('index') >=  nextIndex){
+                    $(element).empty().append(
+                        $('<option>', {
+                            text: 'Selecione o filtro anterior',
+                            disable: true
+                        })
+                    )
+                }
+
+                $('.selectpicker').selectpicker('refresh')
+            }
         }, 'json')
     });
 

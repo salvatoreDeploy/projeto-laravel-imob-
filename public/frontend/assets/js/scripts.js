@@ -43,9 +43,28 @@ $(function () {
                     );
                 });
 
+                $.each($('select[name*="filter_"]'), function (index, element){
+                    if($(element).data('index') >=  nextIndex + 1){
+                        $(element).empty().append(
+                            $('<option>', {
+                                text: 'Selecione o filtro anterior',
+                                disable: true
+                            })
+                        )
+                    }
+                })
+
                 $('.selectpicker').selectpicker('refresh')
             }
-            console.log(response)
+            if(response.status === 'fail'){
+                $(element).empty().append(
+                    $('<option>', {
+                        text: 'Selecione o filtro anterior',
+                        disable: true
+                    })
+                )
+                $('.selectpicker').selectpicker('refresh')
+            }
         }, 'json')
     });
 
