@@ -47,7 +47,7 @@
                     <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                         <label for="search_locale" class="mb-2"><b>Onde você quer?</b></label>
                         <select class="selectpicker" name="filter_neighborhood" id="neighborhood" title="Escolha..." data-index="4"
-                                data-action="" multiple
+                                data-action="{{ route("component.main-filter.neighborhood") }}" multiple
                                 data-actions-box="true">
                             <option disabled>Selecione o filtro anterior</option>
                         </select>

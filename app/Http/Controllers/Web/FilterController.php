@@ -12,6 +12,7 @@ class FilterController extends Controller
     {
         session()->remove('category');
         session()->remove('type');
+        session()->remove('neighborhood');
 
         if ($request->search === 'buy'){
             session()->put('sale', true);
@@ -47,6 +48,7 @@ class FilterController extends Controller
     public function category(Request $request)
     {
         session()->remove('type');
+        session()->remove('neighborhood');
 
         session()->put('category', $request->search);
         $typeProperties = $this->createQuery('type');
@@ -63,9 +65,12 @@ class FilterController extends Controller
 
     }
 
-    public function type(Request $resquest)
+    public function type(Request $request)
     {
-        session()->put('type', $resquest->search);
+        session()->remove('neighborhood');
+
+        session()->put('type', $request->search);
+
         $neighborhoodProperties = $this->createQuery('neighborhood');
 
         if ($neighborhoodProperties->count()){
@@ -80,6 +85,23 @@ class FilterController extends Controller
 
     }
 
+    public function neighborhood(Request $request)
+    {
+        session()->put('neighborhood', $request->search);
+
+        $bedroomsProperties = $this->createQuery('bedrooms');
+
+        if ($bedroomsProperties->count()){
+            foreach ($bedroomsProperties as $property){
+                $bedrooms[] = $property->bedrooms;
+            }
+            $collect = collect($bedrooms);
+            return response()->json($this->setResponse('success',$collect->unique()->toArray()));
+
+        }
+        return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
+
 
     private function createQuery($field)
     {
@@ -87,6 +109,7 @@ class FilterController extends Controller
         $rent = session('rent');
         $category = session('category');
         $type = session('type');
+        $neighborhood = session('neighborhood');
         $status = true;
 
         return DB::table('properties')
@@ -101,6 +124,9 @@ class FilterController extends Controller
             })
             ->when($type, function ($query, $type){
                 return $query->whereIn('type', $type);
+            })
+            ->when($neighborhood, function ($query, $neighborhood){
+                return $query->whereIn('neighborhood', $neighborhood);
             })
             ->when($status, function ($query, $status){
                 return $query->where('status', $status);
