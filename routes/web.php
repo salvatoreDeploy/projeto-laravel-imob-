@@ -30,6 +30,8 @@ Route::group(['prefix' => 'component', 'namespace' => 'Web', 'as' => 'component.
     Route::post('main-filter/category', 'FilterController@category')->name('main-filter.category');
     Route::post('main-filter/type', 'FilterController@type')->name('main-filter.type');
     Route::post('main-filter/neighborhood', 'FilterController@neighborhood')->name('main-filter.neighborhood');
+    Route::post('main-filter/bedrooms', 'FilterController@bedrooms')->name('main-filter.bedrooms');
+    Route::post('main-filter/suites', 'FilterController@suites')->name('main-filter.suites');
 });
 
 

@@ -59,7 +59,7 @@
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Quartos</b></label>
                                 <select class="selectpicker" name="filter_bedrooms"
-                                        data-action="" id="bedrooms"
+                                        data-action="{{ route("component.main-filter.bedrooms") }}" id="bedrooms"
                                         title="Escolha..." data-index="5">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
@@ -68,7 +68,7 @@
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Suítes</b></label>
                                 <select class="selectpicker" name="filter_suites" id="suites" title="Escolha..."
-                                        data-index="6" data-action="">
+                                        data-index="6" data-action="{{ route("component.main-filter.suites") }}">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
                             </div>

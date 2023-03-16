@@ -13,6 +13,9 @@ class FilterController extends Controller
         session()->remove('category');
         session()->remove('type');
         session()->remove('neighborhood');
+        session()->remove('bedrooms');
+        session()->remove('suites');
+        session()->remove('bathrooms');
 
         if ($request->search === 'buy'){
             session()->put('sale', true);
@@ -49,6 +52,8 @@ class FilterController extends Controller
     {
         session()->remove('type');
         session()->remove('neighborhood');
+        session()->remove('bedrooms');
+        session()->remove('suites');
 
         session()->put('category', $request->search);
         $typeProperties = $this->createQuery('type');
@@ -68,6 +73,8 @@ class FilterController extends Controller
     public function type(Request $request)
     {
         session()->remove('neighborhood');
+        session()->remove('bedrooms');
+        session()->remove('suites');
 
         session()->put('type', $request->search);
 
@@ -87,16 +94,80 @@ class FilterController extends Controller
 
     public function neighborhood(Request $request)
     {
+        session()->remove('bedrooms');
+        session()->remove('suites');
+
         session()->put('neighborhood', $request->search);
 
         $bedroomsProperties = $this->createQuery('bedrooms');
 
         if ($bedroomsProperties->count()){
             foreach ($bedroomsProperties as $property){
-                $bedrooms[] = $property->bedrooms;
+                if($property->bedrooms === 0 || $property->bedrooms === 1){
+                    $bedrooms[] = $property->bedrooms . ' Quarto';
+                }else{
+                    $bedrooms[] = $property->bedrooms . ' Quartos';
+                }
+
+                $bedrooms[] = 'Indiferente';
             }
-            $collect = collect($bedrooms);
-            return response()->json($this->setResponse('success',$collect->unique()->toArray()));
+            $collect = collect($bedrooms)->unique()->toArray();
+            sort($collect);
+            return response()->json($this->setResponse('success',$collect));
+
+        }
+        return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
+
+    public function bedrooms(Request $request)
+    {
+        session()->remove('suites');
+
+        session()->put('bedrooms', $request->search);
+
+        $bedroomsProperties = $this->createQuery('suites');
+
+        if ($bedroomsProperties->count()){
+            foreach ($bedroomsProperties as $property){
+               if($property->suites === 0 || $property->suites ===1){
+                   $suites[] = $property->suites . ' Suite';
+               }else{
+                   $suites[] = $property->suites . ' Suites';
+               }
+
+               $suites[] = 'Indiferente';
+            }
+            $collect = collect($suites)->unique()->toArray();
+            sort($collect);
+
+            return response()->json($this->setResponse('success',$collect));
+
+        }
+        return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
+
+    public function suites(Request $request)
+    {
+        session()->put('suites', $request->search);
+
+        $suitesProperties = $this->createQuery('bathrooms');
+
+        if ($suitesProperties->count()){
+            foreach ($suitesProperties as $property){
+                if($property->bathrooms === 0 || $property->bathrooms === 1){
+                    $bathrooms[] = $property->bathrooms . ' Banheiro';
+                }else{
+                    $bathrooms[] = $property->bathrooms . ' Banheiros';
+                }
+
+                $bathrooms[] = 'Indiferente';
+            }
+
+            $collect = collect($bathrooms)->unique()->toArray();
+
+            sort($collect);
+
+            return response()->json($this->setResponse('success',$collect));
 
         }
         return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
@@ -110,6 +181,8 @@ class FilterController extends Controller
         $category = session('category');
         $type = session('type');
         $neighborhood = session('neighborhood');
+        $bedrooms = session('bedrooms');
+        $suites= session('suites');
         $status = true;
 
         return DB::table('properties')
@@ -127,6 +200,17 @@ class FilterController extends Controller
             })
             ->when($neighborhood, function ($query, $neighborhood){
                 return $query->whereIn('neighborhood', $neighborhood);
+            })
+            ->when($bedrooms, function ($query, $bedrooms){
+                if($bedrooms == 'Indiferente'){
+                    return $query;
+                }
+                $bedrooms = (int)$bedrooms;
+
+                return $query->where('bedrooms', $bedrooms);
+            })
+            ->when($suites, function ($query, $suites){
+                return $query->where('suites', $suites);
             })
             ->when($status, function ($query, $status){
                 return $query->where('status', $status);
