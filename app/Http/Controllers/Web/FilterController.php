@@ -16,6 +16,7 @@ class FilterController extends Controller
         session()->remove('bedrooms');
         session()->remove('suites');
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         if ($request->search === 'buy') {
             session()->put('sale', true);
@@ -55,6 +56,7 @@ class FilterController extends Controller
         session()->remove('bedrooms');
         session()->remove('suites');
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         session()->put('category', $request->search);
         $typeProperties = $this->createQuery('type');
@@ -77,6 +79,7 @@ class FilterController extends Controller
         session()->remove('bedrooms');
         session()->remove('suites');
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         session()->put('type', $request->search);
 
@@ -99,6 +102,7 @@ class FilterController extends Controller
         session()->remove('bedrooms');
         session()->remove('suites');
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         session()->put('neighborhood', $request->search);
 
@@ -112,8 +116,9 @@ class FilterController extends Controller
                     $bedrooms[] = $property->bedrooms . ' Quartos';
                 }
 
-                $bedrooms[] = 'Indiferente';
             }
+            $bedrooms[] = 'Indiferente';
+
             $collect = collect($bedrooms)->unique()->toArray();
             sort($collect);
             return response()->json($this->setResponse('success', $collect));
@@ -126,6 +131,7 @@ class FilterController extends Controller
     {
         session()->remove('suites');
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         session()->put('bedrooms', $request->search);
 
@@ -139,8 +145,9 @@ class FilterController extends Controller
                     $suites[] = $property->suites . ' Suites';
                 }
 
-                $suites[] = 'Indiferente';
             }
+            $suites[] = 'Indiferente';
+
             $collect = collect($suites)->unique()->toArray();
             sort($collect);
 
@@ -155,6 +162,7 @@ class FilterController extends Controller
         session()->put('suites', $request->search);
 
         session()->remove('bathrooms');
+        session()->remove('garage');
 
         $suitesProperties = $this->createQuery('bathrooms');
 
@@ -166,8 +174,9 @@ class FilterController extends Controller
                     $bathrooms[] = $property->bathrooms . ' Banheiros';
                 }
 
-                $bathrooms[] = 'Indiferente';
             }
+
+            $bathrooms[] = 'Indiferente';
 
             $collect = collect($bathrooms)->unique()->toArray();
 
@@ -183,18 +192,24 @@ class FilterController extends Controller
     {
         session()->put('bathrooms', $request->search);
 
-        $bathroomsProperties = $this->createQuery('garage');
+        session()->remove('garage');
+
+        $bathroomsProperties = $this->createQuery('garage,garage_covered');
 
         if ($bathroomsProperties->count()) {
             foreach ($bathroomsProperties as $property) {
+
+                $property->garage = $property->garage + $property->garage_covered;
+
                 if ($property->garage === 0 || $property->garage === 1) {
                     $garage[] = $property->garage . ' Garagem';
                 } else {
                     $garage[] = $property->garage . ' Garagens';
                 }
 
-                $garage[] = 'Indiferente';
             }
+
+            $garage[] = 'Indiferente';
 
             $collect = collect($garage)->unique()->toArray();
 
@@ -206,7 +221,30 @@ class FilterController extends Controller
         return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
     }
 
+    public function garage(Request $request)
+    {
+        session()->put('garage', $request->search);
 
+        if(session('sale')){
+            $priceBaseProperties = $this->createQuery('sale_price as price');
+        }else{
+            $priceBaseProperties = $this->createQuery('rent_price as price');
+        }
+
+        if ($priceBaseProperties->count()) {
+            foreach ($priceBaseProperties as $property) {
+                $price[] = 'R$ ' . number_format($property->price, 2, ',', '.');
+            }
+
+            $collect = collect($price)->unique()->toArray();
+
+            sort($collect);
+
+            return response()->json($this->setResponse('success', $collect));
+
+        }
+        return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
 
     private function createQuery($field)
     {
@@ -218,6 +256,7 @@ class FilterController extends Controller
         $bedrooms = session('bedrooms');
         $suites = session('suites');
         $bathrooms = session('bathrooms');
+        $garage = session('garage');
         $status = true;
 
         return DB::table('properties')
@@ -245,14 +284,32 @@ class FilterController extends Controller
                 return $query->where('bedrooms', $bedrooms);
             })
             ->when($suites, function ($query, $suites) {
+                if ($suites == 'Indiferente') {
+                    return $query;
+                }
+                $suites = (int)$suites;
+
                 return $query->where('suites', $suites);
             })
             ->when($bathrooms, function ($query, $bathrooms) {
+                if ($bathrooms == 'Indiferente') {
+                    return $query;
+                }
+                $bathrooms = (int)$bathrooms;
+
                 return $query->where('bathrooms', $bathrooms);
+            })
+            ->when($garage, function ($query, $garage) {
+                if ($garage == 'Indiferente') {
+                    return $query;
+                }
+                $garage = (int)$garage;
+
+                return $query->whereRaw('garage + garage_covered = ? OR garage = ? OR garage_covered = ?', [$garage, $garage, $garage]);
             })
             ->when($status, function ($query, $status) {
                 return $query->where('status', $status);
             })
-            ->get([$field]);
+            ->get(explode(',', $field));
     }
 }

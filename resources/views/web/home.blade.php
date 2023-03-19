@@ -84,7 +84,7 @@
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-3 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Garagem</b></label>
                                 <select class="selectpicker" name="filter_garage" id="garage" title="Escolha..." data-index="8"
-                                        data-action="">
+                                        data-action="{{ route('component.main-filter.garage') }}">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
                             </div>
