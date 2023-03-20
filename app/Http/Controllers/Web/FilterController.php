@@ -297,7 +297,7 @@ class FilterController extends Controller
         return response()->json($this->setResponse('success', []));
     }
 
-    private function createQuery($field)
+    public function createQuery($field)
     {
         $sale = session('sale');
         $rent = session('rent');
@@ -309,6 +309,7 @@ class FilterController extends Controller
         $bathrooms = session('bathrooms');
         $garage = session('garage');
         $priceBase = session('price_base');
+        $priceLimit = session('price_limit');
         $status = true;
 
         return DB::table('properties')
@@ -367,6 +368,16 @@ class FilterController extends Controller
                     return $query->where('sale_price', '>=', $priceBase);
                 }else{
                     return $query->where('rent_price', '>=', $priceBase);
+                }
+            })
+            ->when($priceLimit, function ($query, $priceLimit) {
+
+                $priceLimit = (float)str_replace(',', '.', str_replace('.', '', explode('R$ ', $priceLimit, 2)[1]));
+
+                if(session('sale') === true){
+                    return $query->where('sale_price', '<=', $priceLimit);
+                }else{
+                    return $query->where('rent_price', '<=', $priceLimit);
                 }
             })
             ->when($status, function ($query, $status) {

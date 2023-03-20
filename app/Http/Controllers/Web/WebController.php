@@ -49,6 +49,21 @@ class WebController extends Controller
 
     public function filter()
     {
-        return view('web.filter');
+        $filter = new FilterController();
+        $itemProperty = $filter->createQuery('id');
+
+        foreach ($itemProperty as $property){
+            $properties[] = $property->id;
+        }
+
+        if(!empty($property)){
+            $properties = Property::whereIn('id', $properties)->get();
+        }else{
+            $properties = Property::all();
+        }
+
+        return view('web.filter', [
+            'properties' => $properties
+        ]);
     }
 }

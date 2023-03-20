@@ -19,11 +19,10 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
     Route::get('/quero-alugar/{slug}', 'WebController@rentProperty')->name('rentProperty');
     Route::get('/quero-comprar', 'WebController@buy')->name('buy');
     Route::get('/quero-comprar/{slug}', 'WebController@buyProperty')->name('buyProperty');
-    Route::get('/filtro', 'WebController@filter')->name('filter');
+    Route::match(['post', 'get'],'/filtro', 'WebController@filter')->name('filter');
     Route::get('/contato', 'WebController@contact')->name('contact');
 
 });
-
 
 Route::group(['prefix' => 'component', 'namespace' => 'Web', 'as' => 'component.'], function (){
     Route::post('main-filter/search', 'FilterController@search')->name('main-filter.search');
@@ -70,7 +69,6 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.'], fu
         Route::resource('contracts', 'ContractController');
 
     });
-
 
     /* Logout */
     Route::get('logout', 'AuthController@logout')->name('logout');
