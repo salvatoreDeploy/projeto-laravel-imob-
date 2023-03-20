@@ -17,6 +17,8 @@ class FilterController extends Controller
         session()->remove('suites');
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         if ($request->search === 'buy') {
             session()->put('sale', true);
@@ -57,6 +59,8 @@ class FilterController extends Controller
         session()->remove('suites');
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         session()->put('category', $request->search);
         $typeProperties = $this->createQuery('type');
@@ -80,6 +84,8 @@ class FilterController extends Controller
         session()->remove('suites');
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         session()->put('type', $request->search);
 
@@ -103,6 +109,8 @@ class FilterController extends Controller
         session()->remove('suites');
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         session()->put('neighborhood', $request->search);
 
@@ -132,6 +140,8 @@ class FilterController extends Controller
         session()->remove('suites');
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         session()->put('bedrooms', $request->search);
 
@@ -163,6 +173,8 @@ class FilterController extends Controller
 
         session()->remove('bathrooms');
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         $suitesProperties = $this->createQuery('bathrooms');
 
@@ -193,6 +205,8 @@ class FilterController extends Controller
         session()->put('bathrooms', $request->search);
 
         session()->remove('garage');
+        session()->remove('price_base');
+        session()->remove('price_limit');
 
         $bathroomsProperties = $this->createQuery('garage,garage_covered');
 
@@ -225,6 +239,9 @@ class FilterController extends Controller
     {
         session()->put('garage', $request->search);
 
+        session()->remove('price_base');
+        session()->remove('price_limit');
+
         if(session('sale')){
             $priceBaseProperties = $this->createQuery('sale_price as price');
         }else{
@@ -233,7 +250,7 @@ class FilterController extends Controller
 
         if ($priceBaseProperties->count()) {
             foreach ($priceBaseProperties as $property) {
-                $price[] = 'R$ ' . number_format($property->price, 2, ',', '.');
+                $price[] = 'A partir de R$ ' . number_format($property->price, 2, ',', '.');
             }
 
             $collect = collect($price)->unique()->toArray();
@@ -244,6 +261,40 @@ class FilterController extends Controller
 
         }
         return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
+
+    public function pricebase(Request $request)
+    {
+        session()->put('price_base', $request->search);
+
+        session()->remove('price_limit');
+
+        if(session('sale')){
+            $priceLimitProperties = $this->createQuery('sale_price as price');
+        }else{
+            $priceLimitProperties = $this->createQuery('rent_price as price');
+        }
+
+        if ($priceLimitProperties->count()) {
+            foreach ($priceLimitProperties as $property) {
+                $price[] = 'Até R$ ' . number_format($property->price, 2, ',', '.');
+            }
+
+            $collect = collect($price)->unique()->toArray();
+
+            sort($collect);
+
+            return response()->json($this->setResponse('success', $collect));
+
+        }
+        return response()->json($this->setResponse('fail', [], 'Ooops, não foi possivel retornar nenhum dado para essa pesquisa!! '));
+    }
+
+    public function pricelimit(Request $request)
+    {
+        session()->put('price_limit', $request->search);
+
+        return response()->json($this->setResponse('success', []));
     }
 
     private function createQuery($field)
@@ -257,6 +308,7 @@ class FilterController extends Controller
         $suites = session('suites');
         $bathrooms = session('bathrooms');
         $garage = session('garage');
+        $priceBase = session('price_base');
         $status = true;
 
         return DB::table('properties')
@@ -306,6 +358,16 @@ class FilterController extends Controller
                 $garage = (int)$garage;
 
                 return $query->whereRaw('garage + garage_covered = ? OR garage = ? OR garage_covered = ?', [$garage, $garage, $garage]);
+            })
+            ->when($priceBase, function ($query, $priceBase) {
+
+                $priceBase = (float)str_replace(',', '.', str_replace('.', '', explode('R$ ', $priceBase, 2)[1]));
+
+                if(session('sale') === true){
+                    return $query->where('sale_price', '>=', $priceBase);
+                }else{
+                    return $query->where('rent_price', '>=', $priceBase);
+                }
             })
             ->when($status, function ($query, $status) {
                 return $query->where('status', $status);

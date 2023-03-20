@@ -94,7 +94,7 @@
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-6 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Preço Base</b></label>
                                 <select class="selectpicker" name="filter_base" id="base" title="Escolha..." data-index="9"
-                                        data-action="">
+                                        data-action="{{ route('component.main-filter.pricebase') }}">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
                             </div>
@@ -102,7 +102,7 @@
                             <div class="form-group col-12 col-sm-6 mt-sm-2 col-lg-6 mt-lg-0">
                                 <label for="bedrooms" class="mb-2"><b>Preço Limite</b></label>
                                 <select class="selectpicker" name="filter_limit" id="limit" title="Escolha..." data-index="10"
-                                        data-action="">
+                                        data-action="{{ route('component.main-filter.pricelimit') }}">
                                     <option disabled>Selecione o filtro anterior</option>
                                 </select>
                             </div>

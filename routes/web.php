@@ -34,7 +34,8 @@ Route::group(['prefix' => 'component', 'namespace' => 'Web', 'as' => 'component.
     Route::post('main-filter/suites', 'FilterController@suites')->name('main-filter.suites');
     Route::post('main-filter/bathrooms', 'FilterController@bathrooms')->name('main-filter.bathrooms');
     Route::post('main-filter/garage', 'FilterController@garage')->name('main-filter.garage');
-
+    Route::post('main-filter/pricebase', 'FilterController@pricebase')->name('main-filter.pricebase');
+    Route::post('main-filter/pricelimit', 'FilterController@pricelimit')->name('main-filter.pricelimit');
 });
 
 
