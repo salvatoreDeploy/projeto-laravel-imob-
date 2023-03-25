@@ -24,18 +24,27 @@ class WebController extends Controller
     }
     public function rent()
     {
-        return view('web.filter');
+        $filter = new FilterController();
+        $filter->clearData();
+
+        $properties = Property::rent()->available()->get();
+        return view('web.filter', ["properties" => $properties, "type" => "rent"]);
     }
     public function buy()
     {
-        return view('web.filter');
+        $filter = new FilterController();
+        $filter->clearData();
+
+        $properties = Property::sale()->available()->get();
+        return view('web.filter', ["properties" => $properties, "type" => "sale"]);
     }
 
     public function buyProperty(Request $request)
     {
         $property = Property::where('slug', $request->slug)->first();
         return view('web.property', [
-            'property' => $property
+            'property' => $property,
+            'type' => 'sale'
         ]);
     }
 
@@ -43,7 +52,8 @@ class WebController extends Controller
     {
         $property = Property::where('slug', $request->slug)->first();
         return view('web.property', [
-            'property' => $property
+            'property' => $property,
+            'type' => 'rent'
         ]);
     }
 

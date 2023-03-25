@@ -54,9 +54,6 @@
                         <div class="main_property_price pt-4 text-muted">
                             <p class="main_property_price_small">IPTU:
                                 R$ {{ $property->tribute }}  {{ $property->condominium != '0,00' ? '| Condominio: R$ ' . $property->condominium : '' }} </p>
-
-
-
                             @if($property->sale === 1 && $property->rent === 0)
                                 <p class="main_property_price_big">Valor da Compra: R$ {{ $property->sale_price }}</p>
                             @elseif($property->sale === 0 && $property->rent === 1)
@@ -64,10 +61,10 @@
                             @elseif($property->sale === 1 && $property->rent === 1)
                                 <p class="main_property_price_big">Valor da Compra: R$ {{ $property->sale_price }}</p>
                                 <p class="main_property_price_big">Valor do Aluguel: R$ {{ $property->rent_price }}</p>
+                            @else
+                                <p class="main_properties_price text-front">Entre em contato com a nossa equipe comercial!</p>
                             @endif
 
-                            <p class="main_properties_price text-front">Entre em contato com a nossa equipe
-                                comercial!</p>
                         </div>
 
                         <div class="main_property_content_description">
