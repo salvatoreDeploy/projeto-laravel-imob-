@@ -20,6 +20,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
     Route::get('/quero-comprar', 'WebController@buy')->name('buy');
     Route::get('/quero-comprar/{slug}', 'WebController@buyProperty')->name('buyProperty');
     Route::match(['post', 'get'],'/filtro', 'WebController@filter')->name('filter');
+    Route::get('/experiencias', 'WebController@experience')->name('experience');
+    Route::get('/experiencias/{slug}', 'WebController@experienceCategory')->name('experienceCategory');
     Route::get('/contato', 'WebController@contact')->name('contact');
 
 });
