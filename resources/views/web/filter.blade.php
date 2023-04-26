@@ -16,7 +16,7 @@
                                 <label for="search" class="mb-2 text-front">Comprar ou Alugar?</label>
                                 <select class="selectpicker" id="search" name="filter_search" title="Escolha..."
                                         data-index="1" data-action="{{ route("component.main-filter.search") }}">
-                                    <option value="buy" {{ session('rent') === true ? 'selected' : '' }}>Comprar</option>
+                                    <option value="buy" {{ session('sale') === true ? 'selected' : '' }}>Comprar</option>
                                     <option value="rent"{{ session('rent') === true ? 'selected' : '' }}>Alugar</option>
                                 </select>
                             </div>

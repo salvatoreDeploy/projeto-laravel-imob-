@@ -190,7 +190,7 @@
                     </div>
 
                     <div class="col-12 col-lg-4">
-                        <a href="https://api.whatsapp.com/send?phone=DDI+DDD+TELEFONE&text=Olá, preciso de ajuda com o login."
+                        <a href="https://api.whatsapp.com/send?phone=+55+15+988171471&text=Olá, preciso de ajuda com o login."
                            class="btn btn-outline-success btn-lg btn-block icon-whatsapp mb-3">Converse com o Corretor!
                         </a>
 
@@ -237,11 +237,9 @@
                                    class="fb-xfbml-parse-ignore">Compartilhar
                                 </a>
                             </div>
-                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-                               data-size="large" data-text="" data-url=""
-                               data-hashtags="laradev" data-related="guuweb" data-lang="pt" data-show-count="false">Tweet</a>
+                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-size="large" data-text="{{ $property->title }}!" data-url="{{ url()->current() }}" data-hashtags="projetosDeploy" data-related="HenriqueJArauj1" data-lang="pt" data-show-count="false">Tweet</a>
                             <a style="padding: 0 10px; margin: 0; font-size: 0.875em; padding-top: 2px;"
-                               href="https://instagram.com/guhweb/" target="_blank"
+                               href="https://www.instagram.com/henrique_j_a/" target="_blank"
                                class="btn btn-front icon-instagram ml-2">Instagram</a>
                         </div>
                     </div>
@@ -295,8 +293,6 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBm_GcxOF9S6wPSNt9sMleqLyT6Bv96Iio&callback=markMap"></script>
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-            src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v3.3&appId=1981931985380360&autoLogAppEvents=1"></script>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/pt_BR/sdk.js#xfbml=1&version=v16.0&appId=170478997864612&autoLogAppEvents=1" nonce="Tod1dUtN"></script>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
 @endsection

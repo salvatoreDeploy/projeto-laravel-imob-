@@ -25,7 +25,11 @@ class WebController extends Controller
     }
     public function contact()
     {
-        return view('web.contact');
+        $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Quer conversar com um corretor exclusivo e ter o atendimento diferenciado em busca do seu imóvel dos sonhos? Entre em contato com nossa equipe',
+            route('web.contact'),
+            asset('frontend/assets/images/share.png'));
+
+        return view('web.contact', ["head" => $head]);
     }
     public function rent()
     {
@@ -55,8 +59,14 @@ class WebController extends Controller
     public function buyProperty(Request $request)
     {
         $property = Property::where('slug', $request->slug)->first();
+
+        $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', $property->headline ?? $property->title,
+            route('web.buyProperty', ["property" => $property->slug]),
+            $property->coverImage());
+
         return view('web.property', [
             'property' => $property,
+            'head' => $head,
             'type' => 'sale'
         ]);
     }
@@ -64,8 +74,14 @@ class WebController extends Controller
     public function rentProperty(Request $request)
     {
         $property = Property::where('slug', $request->slug)->first();
+
+        $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', $property->headline ?? $property->title,
+            route('web.rentProperty', ["property" => $property->slug]),
+            $property->coverImage());
+
         return view('web.property', [
             'property' => $property,
+            'head' => $head,
             'type' => 'rent'
         ]);
     }
@@ -167,6 +183,12 @@ class WebController extends Controller
 
             $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Vivendo a experiencia de encontrar os imóveis do seu sonho na melhor e mais completa imobiliaria de Sorocaba',
                 route('web.experienceCategory'),
+                asset('frontend/assets/images/share.png'));
+        }
+
+        if(empty($head)){
+            $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Vivendo a experiencia de encontrar os imóveis do seu sonho',
+                route('web.experience'),
                 asset('frontend/assets/images/share.png'));
         }
 
