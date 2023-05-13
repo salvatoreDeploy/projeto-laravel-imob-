@@ -3,7 +3,9 @@
 namespace LaraDev\Http\Controllers\Web;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use LaraDev\Http\Controllers\Controller;
+use LaraDev\Mail\Web\Contact;
 use LaraDev\Property;
 
 class WebController extends Controller
@@ -23,6 +25,16 @@ class WebController extends Controller
             'propertiesForRent' => $propertiesForRent
         ]);
     }
+
+    public function spotlight()
+    {
+        $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Confira nossos maiores e melhores Emprendimentos!!',
+            route('web.spotlight'),
+            asset('frontend/assets/images/share.png'));
+
+        return view('web.spotlight', ['head' => $head]);
+    }
+
     public function contact()
     {
         $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Quer conversar com um corretor exclusivo e ter o atendimento diferenciado em busca do seu imóvel dos sonhos? Entre em contato com nossa equipe',
@@ -31,6 +43,28 @@ class WebController extends Controller
 
         return view('web.contact', ["head" => $head]);
     }
+
+    public function sendemail(Request $request)
+    {
+        $data = [
+            "reply_name" => $request->name,
+            "reply_email" => $request->email,
+            "cell" => $request->cell,
+            "message" => $request->message
+        ];
+
+        // return new Contact($data);
+
+        Mail::send(new Contact($data));
+
+        return redirect()->route('web.sendemailsuccess');
+    }
+
+    public function sendemailsuccess()
+    {
+        return view('web.contact_success');
+    }
+
     public function rent()
     {
         $head = $this->seo->render(env('APP_NAME') . ' - ProjetosDeploy', 'Alugue agora mesmo o imóvel do seu sonho na melhor e mais completa imobiliaria de Sorocaba',

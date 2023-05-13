@@ -65,7 +65,7 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbar">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a href="{{route('web.home')}}" class="nav-link">Home</a></li>
-                    <li class="nav-item"><a href="javascript:void(0)" class="nav-link text-front">Destaque</a></li>
+                    <li class="nav-item"><a href="{{ route('web.spotlight') }}" class="nav-link text-front">Destaque</a></li>
                     <li class="nav-item"><a href="{{route('web.rent')}}" class="nav-link">Alugar</a></li>
                     <li class="nav-item"><a href="{{route('web.buy')}}" class="nav-link">Comprar</a></li>
                     <li class="nav-item"><a href="{{route('web.contact')}}" class="nav-link">Contato</a></li>

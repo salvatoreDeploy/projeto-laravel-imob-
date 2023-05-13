@@ -9,7 +9,7 @@
             <p>Preencha o formulário abaixo e vamos lhe direcionar para alguém que entende a sua necessidade!</p>
 
             <div class="row text-left">
-                <form action="" method="post" autocomplete="off">
+                <form action="{{ route("web.sendemail") }}" method="post" autocomplete="off">
                     @csrf
                     <h2 class="icon-envelope text-black-50">Envie um e-mail</h2>
                     <div class="form-group">

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
     Route::get('/', 'WebController@home')->name('home');
+    Route::get('/destaques', 'WebController@spotlight')->name('spotlight');
     Route::get('/quero-alugar', 'WebController@rent')->name('rent');
     Route::get('/quero-alugar/{slug}', 'WebController@rentProperty')->name('rentProperty');
     Route::get('/quero-comprar', 'WebController@buy')->name('buy');
@@ -23,6 +24,8 @@ Route::group(['namespace' => 'Web', 'as' => 'web.'], function (){
     Route::get('/experiencias', 'WebController@experience')->name('experience');
     Route::get('/experiencias/{slug}', 'WebController@experienceCategory')->name('experienceCategory');
     Route::get('/contato', 'WebController@contact')->name('contact');
+    Route::post('/contato/sendemail', 'WebController@sendemail')->name('sendemail');
+    Route::get('/contato/sucesso', 'WebController@sendemailsuccess')->name('sendemailsuccess');
 
 });
 

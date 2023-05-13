@@ -197,7 +197,7 @@
                         <div class="main_property_contact">
                             <h2 class="bg-front text-white">Entre em contato</h2>
 
-                            <form action="" method="post" autocomplete="off">
+                            <form action="{{ route("web.sendemail") }}" method="post" autocomplete="off">
                                 @csrf
                                 <div class="form-group">
                                     <label for="name">Seu nome:</label>
