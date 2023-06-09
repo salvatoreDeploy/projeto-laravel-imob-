@@ -19,10 +19,14 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::group(['namespace' => 'Api', 'as' => 'api.'], function (){
-    Route::apiResource('/companys', 'CompanyController');
+
     Route::post('/auth/login', 'AuthController@login')->name('login');
-    Route::post('/auth/logout', 'AuthController@logout')->name('logout');
-    Route::post('/auth/user', 'AuthController@user')->name('user');
+    Route::group(['middleware' => ['apiProtected']], function(){
+        Route::post('/auth/logout', 'AuthController@logout')->name('logout');
+        Route::post('/auth/user', 'AuthController@user')->name('user');
+        Route::apiResource('/companys', 'CompanyController');
+    });
+
 });
 
 

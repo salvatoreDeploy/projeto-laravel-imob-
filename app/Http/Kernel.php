@@ -3,6 +3,7 @@
 namespace LaraDev\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use LaraDev\Http\Middleware\apiProtectedRoutes;
 
 class Kernel extends HttpKernel
 {
@@ -60,6 +61,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'apiProtected' => \LaraDev\Http\Middleware\apiProtectedRoutes::class,
     ];
 
     /**
